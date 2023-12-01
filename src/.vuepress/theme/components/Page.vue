@@ -1,0 +1,243 @@
+<template>
+  <main
+    class="flex-1 h-full lg:px-8 px-0 pb-8"
+    style="max-width: cal(100% - 280px)"
+  >
+    <Breadcrumb :path="$page.path" />
+    <div class="text-white pt-6">
+      <h1 class="text-4xl font-bold py-3">{{ $page.title }}</h1>
+    </div>
+
+    <article class="leading-6">
+      <Content />
+    </article>
+
+    <Pagination />
+
+    <div class="border-t py-10 flex justify-end">
+      <p class="text-gray-500 leading-5">
+        This page was last updated {{ lastUpdated }}
+      </p>
+    </div>
+  </main>
+</template>
+    
+    <script>
+// import { format } from "timeago.js";
+import Breadcrumb from "@theme/components/Breadcrumb.vue";
+import Pagination from "@theme/components/Pagination.vue";
+// import PageNav from "@theme/components/PageNav.vue";
+
+export default {
+  components: {
+    Pagination,
+    Breadcrumb,
+    // PageNav
+  },
+  props: ["sidebarItems"],
+
+  computed: {
+    lastUpdated() {
+      console.log(this.$page.lastUpdated);
+      return 0;
+      //   format(this.$page.lastUpdated);
+    },
+  },
+
+  mounted() {
+    document.querySelectorAll("article pre").forEach((element) => {
+      const wrapper = document.createElement("div");
+
+      const header = document.createElement("div");
+      const red = document.createElement("div");
+      const yellow = document.createElement("div");
+      const green = document.createElement("div");
+
+      // Adding CSS classes
+      wrapper.classList.add("custom-highlighter-wrapper");
+      header.classList.add("custom-highlighter-header");
+      green.classList.add("custom-highlighter-green");
+      red.classList.add("custom-highlighter-red");
+      yellow.classList.add("custom-highlighter-yellow");
+
+      element.insertAdjacentElement("beforebegin", wrapper);
+
+      // Appending
+      header.appendChild(red);
+      header.appendChild(yellow);
+      header.appendChild(green);
+
+      wrapper.appendChild(header);
+      wrapper.appendChild(element);
+    });
+  },
+};
+</script>
+    
+    <style lang="stylus">
+    .page {
+      padding-bottom: 2rem;
+      display: block;
+    }
+
+    .custom-highlighter-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      background: #1a2b43;
+    }
+
+    .custom-highlighter-header {
+      padding: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      width: 100%;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+      background: #13243d;
+    }
+
+    .custom-highlighter-red {
+      border-radius: 9999px;
+      width: 1rem;
+      height: 1rem;
+      background: #fa4339;
+    }
+
+    .custom-highlighter-green {
+      border-radius: 9999px;
+      width: 1rem;
+      height: 1rem;
+      background: #3de959;
+    }
+
+    .custom-highlighter-yellow {
+      border-radius: 9999px;
+      width: 1rem;
+      height: 1rem;
+      background: #ffc700;
+    }
+
+    .open {
+      display: block !important;
+    }
+
+    #right-scroll::after {
+      background: #e1e7ec;
+      width: 1px;
+      bottom: 0;
+      left: 2px;
+      content: '';
+      position: absolute;
+      height: 100%;
+    }
+
+    article p {
+      padding: 0.4rem 0px;
+      color: white;
+    }
+
+    article a {
+      color: #0db9e9;
+    }
+
+    article h2, article h3 {
+      color: white;
+      font-weight: 500;
+      padding: 1.5rem 0px 0.5rem 0px;
+    }
+
+    #right a {
+      font-size: 12px;
+      color: #e9e9e9;
+    }
+
+    article h2 {
+      font-size: 28px;
+      line-height: 34px;
+    }
+
+    article h3 {
+      font-size: 20px;
+      line-height: 25px;
+    }
+
+    article ul {
+      color: white;
+      padding: 1rem 2rem !important;
+      list-style: disc !important;
+    }
+
+    article ul li {
+      padding: 0.2rem !important;
+    }
+
+    .navbar_drawer {
+      position: absolute !important;
+      /* top: 99%; */
+      /* padding: 0 15px; */
+      height: 100%;
+      max-width: 100% !important;
+      width: 100%;
+      justify-content: center;
+      z-index: 20;
+      background: #0f172a;
+    }
+
+    .close {
+      display: none !important;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      column-gap: 30px;
+      row-gap: 30px;
+      width: 100%;
+      margin-bottom: 30px;
+      margin-top: 30px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+      column-gap: 30px;
+      row-gap: 30px;
+      width: 100%;
+      margin-bottom: 30px;
+      margin-top: 30px;
+    }
+
+    a:not(#mainmenu a):hover {
+      color: #0db9e9;
+    }
+
+    #sidebar::-webkit-scrollbar-track {
+      background: #959595;
+      border-radius: 10px;
+    }
+
+    #sidebar::-webkit-scrollbar-thumb {
+      background: #424242;
+      border-radius: 10px;
+    }
+
+    #sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #nohover a:hover {
+      color: #fff !important;
+    }
+
+    @media only screen and (max-width: 460px) {
+      .grid-3, .grid-2 {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+</style>
