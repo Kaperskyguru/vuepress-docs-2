@@ -23,7 +23,7 @@
 </template>
     
     <script>
-// import { format } from "timeago.js";
+import { format } from "timeago.js";
 import Breadcrumb from "@theme/components/Breadcrumb.vue";
 import Pagination from "@theme/components/Pagination.vue";
 // import PageNav from "@theme/components/PageNav.vue";
@@ -38,9 +38,7 @@ export default {
 
   computed: {
     lastUpdated() {
-      console.log(this.$page.lastUpdated);
-      return 0;
-      //   format(this.$page.lastUpdated);
+      return format(this.$page.lastUpdated);
     },
   },
 
